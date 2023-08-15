@@ -1,8 +1,9 @@
 import { useState } from "react"
 import {createAuthUserWithEmailandPassword,createUserDocumentFromAuth} from '../../utils/firebase/firebase.utils'
+import FormInput from "../form/formInput.component"
 const defaultFormFields=
 {
-    Accname:'',
+    displayName:'',
     email:'',
     password:'',
     confirmPassword:''
@@ -10,7 +11,8 @@ const defaultFormFields=
 const SignUp=()=>
 {
     const [formFields,setFormFields]= useState(defaultFormFields);
-    const {Accname,email,password,confirmPassword}=formFields;
+    const {displayName,email,password,confirmPassword}=formFields;
+    console.log(formFields)
     const changeHandler=(event)=>
     {
         const {name,value}=event.target;
@@ -28,12 +30,16 @@ const SignUp=()=>
 
         try {
             const {user}= await createAuthUserWithEmailandPassword(email,password);
-            console.log(user)
+            console.log(displayName)
 
-            await createUserDocumentFromAuth(user,{Accname})
+            await createUserDocumentFromAuth(user,{displayName})
             
         } catch (error) {
-        console.log('error creating the user', error);
+        if(error.code==='auth/email-already-in-use')
+        {
+            alert("This email is in use")
+        }else{
+        console.log('error creating the user', error);}
         }
 
     }
@@ -41,17 +47,13 @@ const SignUp=()=>
         <div>
             <h1>Sign Up to Capstone</h1>
             <form onSubmit={submitHandeler}>
-                <label>Name</label>
-                <input required type="text" name="Accname" value={Accname} onChange={changeHandler}/ >
+                <FormInput required label="Name"type="text" name="displayName" value={displayName} onChange={changeHandler}/ >
 
-                <label>Email</label>
-                <input required type="email" name="email" value={email} onChange={changeHandler}/>
+                <FormInput required label="Email"type="email" name="email" value={email} onChange={changeHandler}/>
 
-                <label>Password</label>
-                <input required type="password" name="password"value={password} onChange={changeHandler}/>
+                <FormInput required label="Password" type="password" name="password"value={password} onChange={changeHandler}/>
 
-                <label>Confirm Password</label>
-                <input required type="password" name="confirmPassword" value={confirmPassword} onChange={changeHandler}/>
+                <FormInput required label="Confirm Password" type="password" name="confirmPassword" value={confirmPassword} onChange={changeHandler}/>
 
                 <button type="submit">Submit</button>
             </form>
