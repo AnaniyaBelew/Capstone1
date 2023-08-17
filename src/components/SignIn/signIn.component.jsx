@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState,useContext } from "react"
 import {signInWithGooglePopup,createUserDocumentFromAuth,signInAuthUserWithEmailandPassword} from '../../utils/firebase/firebase.utils'
 import FormInput from "../form/formInput.component"
 import Button from "../Button/Button.component"
 import "../SignIn/signIn.style.scss"
+import { UserContext } from "../../contexts/usercontext"
 const defaultFormFields=
 {
     email:'',
@@ -12,6 +13,7 @@ const SignIn=()=>
 {
     const [formFields,setFormFields]= useState(defaultFormFields);
     const {email,password}=formFields;
+    const {setCurretUser}= useContext(UserContext)
     console.log(formFields)
     const changeHandler=(event)=>
     {
@@ -19,13 +21,12 @@ const SignIn=()=>
         setFormFields({...formFields,[name]:value})
 
     }
-    const submitHandeler=async (event)=>
+    const SubmitHandeler=async (event)=>
     {
         event.preventDefault();
         try {
-            const response= await signInAuthUserWithEmailandPassword(email,password)
-            console.log(response)
-           
+            const {user}= await signInAuthUserWithEmailandPassword(email,password)
+            setCurretUser(user)
         } catch (error) {
        
         }
@@ -39,7 +40,7 @@ const SignIn=()=>
         <div className="sign-In-container">
             <h2>Don't have an Account</h2>
             <span>Sign Up to Capstone</span>
-            <form onSubmit={submitHandeler}>
+            <form onSubmit={SubmitHandeler}>
 
                 <FormInput required label="Email"type="email" name="email" value={email} onChange={changeHandler}/>
 
