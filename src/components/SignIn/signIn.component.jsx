@@ -1,5 +1,5 @@
 import { useState } from "react"
-import {signInWithGooglePopup,createUserDocumentFromAuth,signInAuthUserWithEmailandPassword} from '../../utils/firebase/firebase.utils'
+import {signInWithGooglePopup,signInAuthUserWithEmailandPassword} from '../../utils/firebase/firebase.utils'
 import FormInput from "../form/formInput.component"
 import Button from "../Button/Button.component"
 import "../SignIn/signIn.style.scss"
@@ -30,8 +30,7 @@ const SignIn=()=>
 
     }
     const logGoogleUser = async () => {
-        const { user } = await signInWithGooglePopup();
-        const userDocRef = await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
       };
     return(
         <div className="sign-In-container">

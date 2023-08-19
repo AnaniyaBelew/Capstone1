@@ -32,7 +32,6 @@ const SignUp=()=>
 
         try {
             const {user}= await createAuthUserWithEmailandPassword(email,password);
-            setCurretUser(user)
             console.log(user)
             await createUserDocumentFromAuth(user,{displayName})
             
