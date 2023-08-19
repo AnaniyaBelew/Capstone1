@@ -16,7 +16,6 @@ const SignUp=()=>
     const {setCurretUser}=useContext(UserContext)
     const [formFields,setFormFields]= useState(defaultFormFields);
     const {displayName,email,password,confirmPassword}=formFields;
-    console.log(formFields)
     const changeHandler=(event)=>
     {
         const {name,value}=event.target;

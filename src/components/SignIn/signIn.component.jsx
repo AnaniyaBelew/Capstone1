@@ -14,7 +14,6 @@ const SignIn=()=>
     const [formFields,setFormFields]= useState(defaultFormFields);
     const {email,password}=formFields;
     const {setCurretUser}= useContext(UserContext)
-    console.log(formFields)
     const changeHandler=(event)=>
     {
         const {name,value}=event.target;
